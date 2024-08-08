@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{A908339B-C683-44B8-9CEB-A792B5A6E065}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{EE8C6478-CF3D-401B-8FAC-AADBB5D7CABE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{454EF4DC-2115-41FA-B512-D464357B9081}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{23C7B254-AC91-432E-ABCA-631CCFB52B02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.API", "Backend\src\API\PetFamily.API\PetFamily.API.csproj", "{DCD4B534-7EDD-4B1E-92F3-ADD703E3E216}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Application", "Backend\src\Application\PetFamily.Application\PetFamily.Application.csproj", "{55798509-9DB1-4FC7-8F84-4C154D4436F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Infrastructure", "Backend\src\Infrastructure\PetFamily.Infrastructure\PetFamily.Infrastructure.csproj", "{807FCACC-4E70-4EFA-BEC5-8B6CB2CA8875}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Domain", "Backend\src\Domain\PetFamily.Domain\PetFamily.Domain.csproj", "{FEC1D168-8C45-4DAD-90AD-26E952CAE272}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DCD4B534-7EDD-4B1E-92F3-ADD703E3E216} = {EE8C6478-CF3D-401B-8FAC-AADBB5D7CABE}
+		{55798509-9DB1-4FC7-8F84-4C154D4436F4} = {A908339B-C683-44B8-9CEB-A792B5A6E065}
+		{807FCACC-4E70-4EFA-BEC5-8B6CB2CA8875} = {23C7B254-AC91-432E-ABCA-631CCFB52B02}
+		{FEC1D168-8C45-4DAD-90AD-26E952CAE272} = {454EF4DC-2115-41FA-B512-D464357B9081}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DCD4B534-7EDD-4B1E-92F3-ADD703E3E216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCD4B534-7EDD-4B1E-92F3-ADD703E3E216}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCD4B534-7EDD-4B1E-92F3-ADD703E3E216}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCD4B534-7EDD-4B1E-92F3-ADD703E3E216}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55798509-9DB1-4FC7-8F84-4C154D4436F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55798509-9DB1-4FC7-8F84-4C154D4436F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55798509-9DB1-4FC7-8F84-4C154D4436F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55798509-9DB1-4FC7-8F84-4C154D4436F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{807FCACC-4E70-4EFA-BEC5-8B6CB2CA8875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{807FCACC-4E70-4EFA-BEC5-8B6CB2CA8875}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{807FCACC-4E70-4EFA-BEC5-8B6CB2CA8875}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{807FCACC-4E70-4EFA-BEC5-8B6CB2CA8875}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEC1D168-8C45-4DAD-90AD-26E952CAE272}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEC1D168-8C45-4DAD-90AD-26E952CAE272}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEC1D168-8C45-4DAD-90AD-26E952CAE272}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEC1D168-8C45-4DAD-90AD-26E952CAE272}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
