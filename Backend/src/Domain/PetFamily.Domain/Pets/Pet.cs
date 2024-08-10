@@ -4,10 +4,9 @@ namespace PetFamily.Domain.Pets;
 
 public class Pet
 {
-    private readonly List<Requisites> _requisites;
     private Pet(string name, string species, string description, string breed, string color, string healthInfo,
         string address, string phone, Status status, List<Requisites> requisites, double weight, double height, bool isCastrated,
-        DateOnly birthDate, bool isVaccinated, DateTime createdAt)
+        DateOnly birthDate, bool isVaccinated, DateTime createdAt, List<PetPhoto> petPhotos)
     {
         Name = name;
         Species = species;
@@ -25,6 +24,7 @@ public class Pet
         BirthDate = birthDate;
         IsVaccinated = isVaccinated;
         CreatedAt = createdAt;
+        _petPhotos = petPhotos;
     }
     public Guid Id { get; private set; }
     public string Name { get; private set; }
@@ -41,15 +41,18 @@ public class Pet
     public DateOnly BirthDate { get; private set; }
     public bool IsVaccinated { get; private set; }
     public Status Status { get; private set; }
-    public IReadOnlyList<Requisites> Requisites => _requisites;
     public DateTime CreatedAt { get; private set; }
-
+    public IReadOnlyList<Requisites> Requisites => _requisites;
+    private readonly List<Requisites> _requisites;
+    public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
+    private readonly List<PetPhoto> _petPhotos;
+    
     public static Result<Pet> Create(string name, string species, string description, string breed,
         string color, string healthInfo, string address, string phone, Status status, List<Requisites> requisites, double weight,
-        double height, bool isCastrated, DateOnly birthDate, bool isVaccinated, DateTime createdAt)
+        double height, bool isCastrated, DateOnly birthDate, bool isVaccinated, DateTime createdAt, List<PetPhoto> petPhotos)
     {
         var pet = new Pet(name, species, description, breed, color, healthInfo, address, phone, status, requisites, weight,
-            height, isCastrated, birthDate, isVaccinated, createdAt);
+            height, isCastrated, birthDate, isVaccinated, createdAt, petPhotos);
 
         return Result.Success(pet);
     }
