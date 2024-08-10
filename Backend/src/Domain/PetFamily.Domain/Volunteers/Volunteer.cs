@@ -5,15 +5,11 @@ namespace PetFamily.Domain.Volunteers;
 
 public class Volunteer
 {
-    private readonly List<SocialNetwork> _socialNetworks;
-    private readonly List<Requisites> _requisites;
-    private readonly List<Pet> _pets;
-
-    private Volunteer(string fio, string description, string phone, List<SocialNetwork> socialNetworks,
+    private Volunteer(FullName fullName, string description, string phone, List<SocialNetwork> socialNetworks,
         List<Requisites> requisites, List<Pet> pets, int experience, int housedCount, int searchingHouseCount,
         int treatmentCount)
     {
-        FIO = fio;
+        FullName = fullName;
         Description = description;
         Phone = phone;
         _socialNetworks = socialNetworks;
@@ -26,7 +22,7 @@ public class Volunteer
     }
 
     public Guid Id { get; private set; }
-    public string FIO { get; private set; }
+    public FullName FullName { get; private set; }
     public string Description { get; private set; }
     public int Experience { get; private set; }
     public int HousedCount { get; private set; }
@@ -34,18 +30,45 @@ public class Volunteer
     public string Phone { get; private set; }
     public int TreatmentCount { get; private set; }
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
+    private readonly List<SocialNetwork> _socialNetworks;
     public IReadOnlyList<Requisites> Requisites => _requisites;
+    private readonly List<Requisites> _requisites;
     public IReadOnlyList<Pet> Pets => _pets;
+    private readonly List<Pet> _pets;
 
-    public static Result<Volunteer> Create(string fio, string description, string phone,
+    public static Result<Volunteer> Create(FullName fullName, string description, string phone,
         List<SocialNetwork> socialNetworks,
         List<Requisites> requisites, List<Pet> pets, int experience, int housedCount, int searchingHouseCount,
         int treatmentCount)
 
     {
-        var volunteer = new Volunteer(fio, description, phone, socialNetworks, requisites, pets, experience,
+        var volunteer = new Volunteer(fullName, description, phone, socialNetworks, requisites, pets, experience,
             housedCount, searchingHouseCount, treatmentCount);
         return Result.Success(volunteer);
+    }
+}
+
+public class FullName : ValueObject
+{
+    private FullName(string firstName, string lastName, string middleName)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        MiddleName = middleName;
+    }
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }
+    public string MiddleName { get; private set; }
+    protected override IEnumerable<IComparable> GetEqualityComponents()
+    {
+        yield return FirstName;
+        yield return LastName;
+        yield return MiddleName;
+    }
+    public static Result<FullName> Create(string firstName, string lastName, string middleName)
+    {
+        var fullName = new FullName(firstName, lastName, middleName);
+        return Result.Success(fullName);
     }
 }
 
