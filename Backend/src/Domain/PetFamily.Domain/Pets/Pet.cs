@@ -5,11 +5,10 @@ namespace PetFamily.Domain.Pets;
 public class Pet
 {
     private readonly List<Requisites> _requisites;
-    private Pet(Guid id, string name, string species, string description, string breed, string color, string healthInfo,
+    private Pet(string name, string species, string description, string breed, string color, string healthInfo,
         string address, string phone, Status status, List<Requisites> requisites, double weight, double height, bool isCastrated,
         DateOnly birthDate, bool isVaccinated, DateTime createdAt)
     {
-        Id = id;
         Name = name;
         Species = species;
         Description = description;
@@ -45,11 +44,11 @@ public class Pet
     public IReadOnlyList<Requisites> Requisites => _requisites;
     public DateTime CreatedAt { get; private set; }
 
-    public static Result<Pet> Create(Guid id, string name, string species, string description, string breed,
+    public static Result<Pet> Create(string name, string species, string description, string breed,
         string color, string healthInfo, string address, string phone, Status status, List<Requisites> requisites, double weight,
         double height, bool isCastrated, DateOnly birthDate, bool isVaccinated, DateTime createdAt)
     {
-        var pet = new Pet(id, name, species, description, breed, color, healthInfo, address, phone, status, requisites, weight,
+        var pet = new Pet(name, species, description, breed, color, healthInfo, address, phone, status, requisites, weight,
             height, isCastrated, birthDate, isVaccinated, createdAt);
 
         return Result.Success(pet);
