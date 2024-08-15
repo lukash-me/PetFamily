@@ -1,19 +1,23 @@
+using System.ComponentModel.Design;
 using CSharpFunctionalExtensions;
 using PetFamily.Domain.Pets;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Volunteers;
 
-public class Volunteer
+public class Volunteer : BaseEntity<VolunteerId>
 {
-    private Volunteer(FullName fullName, string description, string phone, List<SocialNetwork> socialNetworks,
-        List<Requisites> requisites, List<Pet> pets, int experience, int housedCount, int searchingHouseCount,
-        int treatmentCount)
+    private Volunteer(VolunteerId id, DateTime createdAt) : base(id, createdAt) { }
+    private Volunteer(VolunteerId id, FullName fullName, string description, string phone, SocialNetworks socialNetworks,
+        Requisites requisites, List<Pet> pets, int experience, int housedCount, int searchingHouseCount,
+        int treatmentCount) : base(VolunteerId.NewVolunteerId(), DateTime.UtcNow)
     {
+        Id = id;
         FullName = fullName;
         Description = description;
         Phone = phone;
-        _socialNetworks = socialNetworks;
-        _requisites = requisites;
+        SocialNetworks = socialNetworks;
+        Requisites = requisites;
         _pets = pets;
         Experience = experience;
         HousedCount = housedCount;
@@ -21,7 +25,7 @@ public class Volunteer
         TreatmentCount = treatmentCount;
     }
 
-    public Guid Id { get; private set; }
+    public VolunteerId Id { get; private set; }
     public FullName FullName { get; private set; }
     public string Description { get; private set; }
     public int Experience { get; private set; }
@@ -29,20 +33,16 @@ public class Volunteer
     public int SearchingHouseCount { get; private set; }
     public string Phone { get; private set; }
     public int TreatmentCount { get; private set; }
-    public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
-    private readonly List<SocialNetwork> _socialNetworks;
-    public IReadOnlyList<Requisites> Requisites => _requisites;
-    private readonly List<Requisites> _requisites;
+    public SocialNetworks? SocialNetworks { get; private set; }
+    public Requisites? Requisites { get; private set; }
     public IReadOnlyList<Pet> Pets => _pets;
     private readonly List<Pet> _pets;
-
-    public static Result<Volunteer> Create(FullName fullName, string description, string phone,
-        List<SocialNetwork> socialNetworks,
-        List<Requisites> requisites, List<Pet> pets, int experience, int housedCount, int searchingHouseCount,
+    public static Result<Volunteer> Create(VolunteerId id, FullName fullName, string description, string phone,
+        SocialNetworks socialNetworks,
+        Requisites requisites, List<Pet> pets, int experience, int housedCount, int searchingHouseCount,
         int treatmentCount)
-
     {
-        var volunteer = new Volunteer(fullName, description, phone, socialNetworks, requisites, pets, experience,
+        var volunteer = new Volunteer(id, fullName, description, phone, socialNetworks, requisites, pets, experience,
             housedCount, searchingHouseCount, treatmentCount);
         return Result.Success(volunteer);
     }
@@ -72,15 +72,25 @@ public class FullName : ValueObject
     }
 }
 
-public class SocialNetwork
+public record SocialNetworks
+{
+    public List<SocialNetwork> Network { get; }
+}
+
+public record Requisites
+{
+    public List<Requisite> Requisite { get; }
+}
+
+public record class SocialNetwork
 {
     public SocialNetwork(string link, string title)
     {
         Link = link;
         Title = title;
     }
-    public string Link { get; private set; }
-    public string Title { get; private set; }
+    public string Link { get; }
+    public string Title { get; }
 
     public static Result<SocialNetwork> Create(string link, string title)
     {

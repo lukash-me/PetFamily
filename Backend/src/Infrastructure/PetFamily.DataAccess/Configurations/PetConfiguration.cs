@@ -1,0 +1,103 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.VisualBasic;
+using PetFamily.Domain.Pets;
+using Constants = PetFamily.Domain.Shared.Constants;
+
+namespace PetFamily.DataAccess.Configurations;
+
+public class PetConfiguration : IEntityTypeConfiguration<Pet>
+{
+    public void Configure(EntityTypeBuilder<Pet> builder)
+    {
+        builder.HasKey(p => p.Id);
+        
+        builder.Property(p => p.Id)
+            .HasConversion(
+                id => id.Value,
+                value => PetId.Create(value));
+        
+        builder.Property(p => p.CreatedAt)
+            .IsRequired();
+
+        builder.Property(p => p.Name)
+            .IsRequired()
+            .HasMaxLength(Constants.LOW_TITLE_LENGTH);
+        
+        builder.Property(p => p.Species)
+            .IsRequired()
+            .HasMaxLength(Constants.LOW_TITLE_LENGTH);
+
+        builder.Property(p => p.Description)
+            .IsRequired()
+            .HasMaxLength(Constants.MEDIUM_DESCRIPTION_LENGTH);
+        
+        builder.Property(p => p.Breed)
+            .IsRequired()
+            .HasMaxLength(Constants.MEDIUM_TITLE_LENGTH);
+        
+        builder.Property(p => p.Color)
+            .IsRequired()
+            .HasMaxLength(Constants.LOW_TITLE_LENGTH);
+        
+        builder.Property(p => p.HealthInfo)
+            .IsRequired()
+            .HasMaxLength(Constants.MEDIUM_DESCRIPTION_LENGTH);
+        
+        builder.Property(p => p.Address)
+        .IsRequired()
+        .HasMaxLength(Constants.MEDIUM_TITLE_LENGTH);
+
+        builder.Property(p => p.Weight)
+            .IsRequired();
+
+        builder.Property(p => p.Height)
+            .IsRequired();
+
+        builder.Property(p => p.Phone)
+            .IsRequired()
+            .HasMaxLength(Constants.LOW_TITLE_LENGTH);
+
+        builder.Property(p => p.IsCastrated)
+            .IsRequired();
+        
+        builder.Property(p => p.BirthDate)
+            .IsRequired();
+        
+        builder.Property(p => p.IsVaccinated)
+            .IsRequired();
+
+        builder.Property(p => p.Status)
+            .IsRequired()
+            .HasConversion(
+                s => s.ToString(),
+                s => (Status)Enum.Parse(typeof(Status), s));
+
+        builder.OwnsOne(p => p.Requisites, rb =>
+        {
+            rb.ToJson();
+            rb.OwnsMany(r => r.Requisite, reqb =>
+            {
+                reqb.Property(r => r.Title)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MEDIUM_TITLE_LENGTH);
+                reqb.Property(r => r.Description)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MEDIUM_DESCRIPTION_LENGTH);
+            });
+        });
+
+        builder.OwnsOne(p => p.PetPhotos, phb =>
+        {
+            phb.ToJson();
+            phb.OwnsMany(p => p.Photo, pb =>
+            {
+                pb.Property(p => p.Path)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MEDIUM_TITLE_LENGTH);
+                pb.Property(p => p.IsMain)
+                    .IsRequired();
+            });
+        });
+    }
+}
