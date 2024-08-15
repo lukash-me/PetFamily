@@ -16,9 +16,6 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .HasConversion(
                 id => id.Value,
                 value => PetId.Create(value));
-        
-        builder.Property(p => p.CreatedAt)
-            .IsRequired();
 
         builder.Property(p => p.Name)
             .IsRequired()
@@ -44,9 +41,24 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .IsRequired()
             .HasMaxLength(Constants.MEDIUM_DESCRIPTION_LENGTH);
         
-        builder.Property(p => p.Address)
-        .IsRequired()
-        .HasMaxLength(Constants.MEDIUM_TITLE_LENGTH);
+        builder.ComplexProperty(p => p.Address, addressBuilder =>
+        {
+            addressBuilder.Property(a => a.Country)
+                .HasColumnName("country")
+                .HasMaxLength(Constants.LOW_TITLE_LENGTH);
+            addressBuilder.Property(a => a.City)
+                .HasColumnName("city")
+                .HasMaxLength(Constants.LOW_TITLE_LENGTH);
+            addressBuilder.Property(a => a.Street)
+                .HasColumnName("street")
+                .HasMaxLength(Constants.LOW_TITLE_LENGTH);
+            addressBuilder.Property(a => a.Flat)
+                .HasColumnName("flat")
+                .HasMaxLength(Constants.LOW_TITLE_LENGTH);
+            addressBuilder.Property(a => a.House)
+                .HasColumnName("house")
+                .HasMaxLength(Constants.LOW_TITLE_LENGTH);
+        });
 
         builder.Property(p => p.Weight)
             .IsRequired();
@@ -54,9 +66,12 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(p => p.Height)
             .IsRequired();
 
-        builder.Property(p => p.Phone)
-            .IsRequired()
-            .HasMaxLength(Constants.LOW_TITLE_LENGTH);
+        builder.ComplexProperty(p => p.Phone, nameBuilder =>
+        {
+            nameBuilder.Property(p => p.Value)
+                .HasColumnName("phone")
+                .HasMaxLength(Constants.LOW_TITLE_LENGTH);
+        });
 
         builder.Property(p => p.IsCastrated)
             .IsRequired();
