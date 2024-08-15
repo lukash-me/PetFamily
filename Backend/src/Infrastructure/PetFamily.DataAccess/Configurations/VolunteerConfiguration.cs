@@ -16,9 +16,6 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 id => id.Value,
                 value => VolunteerId.Create(value));
 
-        builder.Property(v => v.CreatedAt)
-            .IsRequired();
-
         builder.ComplexProperty(v => v.FullName, nameBuilder =>
         {
             nameBuilder.Property(n => n.FirstName).HasColumnName("firstname").HasMaxLength(30);
@@ -39,8 +36,12 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.Property(v => v.SearchingHouseCount)
             .IsRequired();
         
-        builder.Property(v => v.Phone)
-            .IsRequired();
+        builder.ComplexProperty(v => v.Phone, nameBuilder =>
+        {
+            nameBuilder.Property(p => p.Value)
+                .HasColumnName("phone")
+                .HasMaxLength(Constants.LOW_TITLE_LENGTH);
+        });
         
         builder.Property(v => v.TreatmentCount)
             .IsRequired();

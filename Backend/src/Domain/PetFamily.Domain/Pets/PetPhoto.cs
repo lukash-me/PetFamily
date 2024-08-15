@@ -12,7 +12,7 @@ public class PetPhoto
     public string Path { get; }
     public bool IsMain { get; }
 
-    public Result<PetPhoto> Create(string path, bool isMain)
+    public static Result<PetPhoto> Create(string path, bool isMain)
     {
         var petPhoto = new PetPhoto(path,isMain);
         return Result.Success(petPhoto);

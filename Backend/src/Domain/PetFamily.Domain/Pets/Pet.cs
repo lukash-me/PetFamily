@@ -6,10 +6,10 @@ namespace PetFamily.Domain.Pets;
 
 public class Pet : BaseEntity<PetId>
 {
-    private Pet(PetId id, DateTime createdAt) : base(id, createdAt){ }
+    private Pet(PetId id) : base(id){ }
     private Pet(PetId id, string name, string species, string description, string breed, string color, string healthInfo,
-        string address, string phone, Status status, Requisites requisites, double weight, double height, bool isCastrated,
-        DateOnly birthDate, bool isVaccinated, DateTime createdAt, PetPhotos petPhotos) : base(PetId.NewPetId(), DateTime.UtcNow)
+        Address address, Phone phone, Status status, Requisites requisites, double weight, double height, bool isCastrated,
+        DateOnly birthDate, bool isVaccinated, DateTime createdAt, PetPhotos petPhotos) : base(PetId.NewPetId())
     {
         Id = id;
         Name = name;
@@ -36,10 +36,10 @@ public class Pet : BaseEntity<PetId>
     public string Breed { get; private set; }
     public string Color { get; private set; }
     public string HealthInfo { get; private set; }
-    public string Address { get; private set; }
+    public Address Address { get; private set; }
     public double Weight { get; private set; }
     public double Height { get; private set; }
-    public string Phone { get; private set; }
+    public Phone Phone { get; private set; }
     public bool IsCastrated { get; private set; }
     public DateOnly BirthDate { get; private set; }
     public bool IsVaccinated { get; private set; }
@@ -48,7 +48,7 @@ public class Pet : BaseEntity<PetId>
     public PetPhotos? PetPhotos { get; private set; }
     
     public static Result<Pet> Create(PetId id, string name, string species, string description, string breed,
-        string color, string healthInfo, string address, string phone, Status status, Requisites requisites, double weight,
+        string color, string healthInfo, Address address, Phone phone, Status status, Requisites requisites, double weight,
         double height, bool isCastrated, DateOnly birthDate, bool isVaccinated, DateTime createdAt, PetPhotos petPhotos)
     {
         var pet = new Pet(id, name, species, description, breed, color, healthInfo, address, phone, status, requisites, weight,
@@ -57,14 +57,10 @@ public class Pet : BaseEntity<PetId>
         return Result.Success(pet);
     }
 }
+
 public enum Status
 {
     NeedsHelp,
     SearchingHouse,
     Housed
-}
-
-public record PetPhotos
-{
-    public List<PetPhoto> Photo { get; }
 }
