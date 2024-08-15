@@ -4,12 +4,28 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>6ff0dfb8-5356-487e-bdc9-67d8d3c4cb8e</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\Application\PetFamily.Application\PetFamily.Application.csproj" />
       <ProjectReference Include="..\..\Domain\PetFamily.Domain\PetFamily.Domain.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\PetFamily.DataAccess\PetFamily.DataAccess.csproj" />
       <ProjectReference Include="..\..\Infrastructure\PetFamily.Infrastructure\PetFamily.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
 
 </Project>
