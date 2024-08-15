@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.VisualBasic;
+using PetFamily.Domain.Breeds;
 using PetFamily.Domain.Pets;
+using PetFamily.Domain.Sorts;
 using Constants = PetFamily.Domain.Shared.Constants;
 
 namespace PetFamily.DataAccess.Configurations;
@@ -21,17 +23,21 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .IsRequired()
             .HasMaxLength(Constants.LOW_TITLE_LENGTH);
         
-        builder.Property(p => p.Species)
-            .IsRequired()
-            .HasMaxLength(Constants.LOW_TITLE_LENGTH);
+        builder.ComplexProperty(p => p.AnimalInfo, aib =>
+        {
+            aib.Property(a => a.SpeciesId)
+                .HasConversion(
+                    id => id.Value,
+                    value => SpeciesId.Create(value));
+            aib.Property(a => a.BreedId)
+                .HasConversion(
+                    id => id.Value,
+                    value => BreedId.Create(value));
+        });
 
         builder.Property(p => p.Description)
             .IsRequired()
             .HasMaxLength(Constants.MEDIUM_DESCRIPTION_LENGTH);
-        
-        builder.Property(p => p.Breed)
-            .IsRequired()
-            .HasMaxLength(Constants.MEDIUM_TITLE_LENGTH);
         
         builder.Property(p => p.Color)
             .IsRequired()
