@@ -9,9 +9,24 @@ namespace PetFamily.Domain.Pets;
 public class Pet : BaseEntity<PetId>
 {
     private Pet(PetId id) : base(id){ }
-    private Pet(PetId id, string name, AnimalInfo animalInfo, string description, string color, string healthInfo,
-        Address address, Phone phone, Status status, Requisites requisites, double weight, double height, bool isCastrated,
-        DateOnly birthDate, bool isVaccinated, DateTime createdAt, PetPhotos petPhotos) : base(PetId.NewId())
+
+    private Pet(
+        PetId id,
+        string name,
+        AnimalInfo animalInfo,
+        string description,
+        string color,
+        string healthInfo,
+        Address address,
+        Phone phone,
+        Status status,
+        Requisites? requisites,
+        double weight,
+        double height,
+        bool isCastrated,
+        DateOnly birthDate,
+        bool isVaccinated,
+        PetPhotos petPhotos) : base(PetId.NewId())
     {
         Id = id;
         Name = name;
@@ -47,12 +62,26 @@ public class Pet : BaseEntity<PetId>
     public Requisites? Requisites { get; private set; }
     public PetPhotos? PetPhotos { get; private set; }
     
-    public static Result<Pet> Create(PetId id, string name, AnimalInfo animalInfo, string description,
-        string color, string healthInfo, Address address, Phone phone, Status status, Requisites requisites, double weight,
-        double height, bool isCastrated, DateOnly birthDate, bool isVaccinated, DateTime createdAt, PetPhotos petPhotos)
+    public static Result<Pet> Create(
+        PetId id,
+        string name,
+        AnimalInfo animalInfo,
+        string description,
+        string color,
+        string healthInfo,
+        Address address,
+        Phone phone,
+        Status status,
+        Requisites? requisites,
+        double weight,
+        double height,
+        bool isCastrated,
+        DateOnly birthDate,
+        bool isVaccinated,
+        PetPhotos petPhotos)
     {
         var pet = new Pet(id, name, animalInfo, description, color, healthInfo, address, phone, status, requisites, weight,
-            height, isCastrated, birthDate, isVaccinated, createdAt, petPhotos);
+            height, isCastrated, birthDate, isVaccinated, petPhotos);
 
         return Result.Success(pet);
     }

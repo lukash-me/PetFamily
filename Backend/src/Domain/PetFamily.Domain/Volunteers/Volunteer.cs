@@ -8,8 +8,16 @@ namespace PetFamily.Domain.Volunteers;
 public class Volunteer : BaseEntity<VolunteerId>
 {
     private Volunteer(VolunteerId id) : base(id) { }
-    private Volunteer(VolunteerId id, FullName fullName, string description, Phone phone, SocialNetworks socialNetworks,
-        Requisites requisites, List<Pet> pets, int experience, int housedCount, int searchingHouseCount,
+    private Volunteer(
+        VolunteerId id,
+        FullName fullName,
+        string description,
+        Phone phone,
+        SocialNetworks? socialNetworks,
+        Requisites? requisites,
+        int experience,
+        int housedCount,
+        int searchingHouseCount,
         int treatmentCount) : base(VolunteerId.NewVolunteerId())
     {
         Id = id;
@@ -18,7 +26,6 @@ public class Volunteer : BaseEntity<VolunteerId>
         Phone = phone;
         SocialNetworks = socialNetworks;
         Requisites = requisites;
-        _pets = pets;
         Experience = experience;
         HousedCount = housedCount;
         SearchingHouseCount = searchingHouseCount;
@@ -36,13 +43,20 @@ public class Volunteer : BaseEntity<VolunteerId>
     public SocialNetworks? SocialNetworks { get; private set; }
     public Requisites? Requisites { get; private set; }
     public IReadOnlyList<Pet> Pets => _pets;
-    private readonly List<Pet> _pets;
-    public static Result<Volunteer> Create(VolunteerId id, FullName fullName, string description, Phone phone,
-        SocialNetworks socialNetworks,
-        Requisites requisites, List<Pet> pets, int experience, int housedCount, int searchingHouseCount,
+    private readonly List<Pet> _pets = [];
+    public static Result<Volunteer> Create(
+        VolunteerId id,
+        FullName fullName,
+        string description,
+        Phone phone,
+        SocialNetworks? socialNetworks,
+        Requisites? requisites,
+        int experience,
+        int housedCount,
+        int searchingHouseCount,
         int treatmentCount)
     {
-        var volunteer = new Volunteer(id, fullName, description, phone, socialNetworks, requisites, pets, experience,
+        var volunteer = new Volunteer(id, fullName, description, phone, socialNetworks, requisites, experience,
             housedCount, searchingHouseCount, treatmentCount);
         return Result.Success(volunteer);
     }

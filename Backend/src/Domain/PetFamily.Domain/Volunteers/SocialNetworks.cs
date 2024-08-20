@@ -1,6 +1,13 @@
+using CSharpFunctionalExtensions;
+
 namespace PetFamily.Domain.Volunteers;
 
 public record SocialNetworks
 {
-    public List<SocialNetwork> Network { get; }
+    private SocialNetworks() { }
+    public SocialNetworks(List<SocialNetwork> network)
+    {
+        Network = network;
+    }
+    public IReadOnlyList<SocialNetwork> Network { get; }
 }
