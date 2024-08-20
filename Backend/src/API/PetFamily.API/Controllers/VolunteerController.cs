@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PetFamily.API.Extensions;
 using PetFamily.Application.Volunteers.CreateVolunteer;
 
 namespace PetFamily.API.Controllers;
@@ -14,9 +15,7 @@ public class VolunteerController : ControllerBase
         CancellationToken cancellationToken = default)
     {
         var result = await service.Handle(request, cancellationToken);
-        if (result.IsFailure)
-            return BadRequest(result.Error);
-        
-        return Ok(result.Value);
+
+        return result.ToResponse();
     }
 }

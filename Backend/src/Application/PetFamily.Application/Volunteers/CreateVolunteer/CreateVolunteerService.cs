@@ -14,7 +14,7 @@ public class CreateVolunteerService
         _volunteerRepository = volunteerRepository;
     }
 
-    public async Task<Result<Guid>> Handle(CreateVolunteerRequest request, CancellationToken cancellationToken)
+    public async Task<Result<Guid, Error>> Handle(CreateVolunteerRequest request, CancellationToken cancellationToken)
     {
         var volunteerId = VolunteerId.NewVolunteerId();
 
@@ -23,18 +23,17 @@ public class CreateVolunteerService
             request.LastName,
             request.MiddleName);
         if (fullNameResult.IsFailure)
-            return Result.Failure<Guid>(fullNameResult.Error);
+            return fullNameResult.Error;
 
         var phoneResult = Phone.Create(request.Phone);
         if (phoneResult.IsFailure)
-            return Result.Failure<Guid>(phoneResult.Error);
+            return phoneResult.Error;
 
         var socialNetworksResult = request.SocialNetworks.Select(s =>
                 SocialNetwork.Create(s.link, s.title))
             .ToList();
         if (socialNetworksResult.Any(r => r.IsFailure))
-            return Result.Failure<Guid>(socialNetworksResult.FirstOrDefault(r => r.IsFailure)
-                .Error);
+            return socialNetworksResult.FirstOrDefault(r => r.IsFailure).Error;
         var socialNetworks = new SocialNetworks(socialNetworksResult.Select(s => s.Value)
             .ToList());
 
@@ -42,8 +41,7 @@ public class CreateVolunteerService
                 Requisite.Create(s.title, s.description))
             .ToList();
         if (requisitesResult.Any(r => r.IsFailure))
-            return Result.Failure<Guid>(requisitesResult.FirstOrDefault(r => r.IsFailure)
-                .Error);
+            return requisitesResult.FirstOrDefault(r => r.IsFailure).Error;
         var requisites = new Requisites(requisitesResult.Select(s => s.Value)
             .ToList());
 
@@ -60,7 +58,7 @@ public class CreateVolunteerService
             request.TreatmentCount);
         
         if (volunteerResult.IsFailure)
-            return Result.Failure<Guid>(volunteerResult.Error);
+            return volunteerResult.Error;
 
         await _volunteerRepository.Add(volunteerResult.Value);
 
