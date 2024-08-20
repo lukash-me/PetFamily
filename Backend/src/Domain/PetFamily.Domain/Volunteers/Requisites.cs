@@ -12,5 +12,5 @@ public record Requisites
         Requisite = requisite;
     }
 
-    public List<Requisite> Requisite { get; }
+    public IReadOnlyList<Requisite> Requisite { get; }
 }

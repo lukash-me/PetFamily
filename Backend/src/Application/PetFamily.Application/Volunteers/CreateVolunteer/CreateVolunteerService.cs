@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.Volunteers;
@@ -17,25 +18,47 @@ public class CreateVolunteerService
     {
         var volunteerId = VolunteerId.NewVolunteerId();
 
-        var fullNameResult = FullName.Create(request.firstName, request.lastName, request.middleName);
+        var fullNameResult = FullName.Create(
+            request.FirstName,
+            request.LastName,
+            request.MiddleName);
         if (fullNameResult.IsFailure)
             return Result.Failure<Guid>(fullNameResult.Error);
 
-        var phoneResult = Phone.Create(request.phone);
+        var phoneResult = Phone.Create(request.Phone);
         if (phoneResult.IsFailure)
             return Result.Failure<Guid>(phoneResult.Error);
+
+        var socialNetworksResult = request.SocialNetworks.Select(s =>
+                SocialNetwork.Create(s.link, s.title))
+            .ToList();
+        if (socialNetworksResult.Any(r => r.IsFailure))
+            return Result.Failure<Guid>(socialNetworksResult.FirstOrDefault(r => r.IsFailure)
+                .Error);
+        var socialNetworks = new SocialNetworks(socialNetworksResult.Select(s => s.Value)
+            .ToList());
+
+        var requisitesResult = request.Requisites.Select(s =>
+                Requisite.Create(s.title, s.description))
+            .ToList();
+        if (requisitesResult.Any(r => r.IsFailure))
+            return Result.Failure<Guid>(requisitesResult.FirstOrDefault(r => r.IsFailure)
+                .Error);
+        var requisites = new Requisites(requisitesResult.Select(s => s.Value)
+            .ToList());
+
+        var volunteerResult = Volunteer.Create(
+            volunteerId,
+            fullNameResult.Value,
+            request.Description,
+            phoneResult.Value,
+            socialNetworks,
+            requisites,
+            request.Experience,
+            request.HousedCount,
+            request.SearchingHouseCount,
+            request.TreatmentCount);
         
-        var socialNetworksList = request.socialNetworks.Select(s =>
-            new SocialNetwork(s.link, s.title)).ToList();
-        var socialNetworks = new SocialNetworks(socialNetworksList);
-        
-        var requisitesList = request.requisites.Select(r =>
-            new Requisite(r.title, r.description)).ToList();
-        var requisites = new Requisites(requisitesList);
-        
-        var volunteerResult = Volunteer.Create(volunteerId, fullNameResult.Value, request.description,
-            phoneResult.Value, socialNetworks, requisites, request.experience, request.housedCount,
-            request.searchingHouseCount, request.treatmentCount);
         if (volunteerResult.IsFailure)
             return Result.Failure<Guid>(volunteerResult.Error);
 

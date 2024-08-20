@@ -8,8 +8,16 @@ namespace PetFamily.Domain.Volunteers;
 public class Volunteer : BaseEntity<VolunteerId>
 {
     private Volunteer(VolunteerId id) : base(id) { }
-    private Volunteer(VolunteerId id, FullName fullName, string description, Phone phone, SocialNetworks? socialNetworks,
-        Requisites? requisites, int experience, int housedCount, int searchingHouseCount,
+    private Volunteer(
+        VolunteerId id,
+        FullName fullName,
+        string description,
+        Phone phone,
+        SocialNetworks? socialNetworks,
+        Requisites? requisites,
+        int experience,
+        int housedCount,
+        int searchingHouseCount,
         int treatmentCount) : base(VolunteerId.NewVolunteerId())
     {
         Id = id;
@@ -36,9 +44,16 @@ public class Volunteer : BaseEntity<VolunteerId>
     public Requisites? Requisites { get; private set; }
     public IReadOnlyList<Pet> Pets => _pets;
     private readonly List<Pet> _pets = [];
-    public static Result<Volunteer> Create(VolunteerId id, FullName fullName, string description, Phone phone,
+    public static Result<Volunteer> Create(
+        VolunteerId id,
+        FullName fullName,
+        string description,
+        Phone phone,
         SocialNetworks? socialNetworks,
-        Requisites? requisites, int experience, int housedCount, int searchingHouseCount,
+        Requisites? requisites,
+        int experience,
+        int housedCount,
+        int searchingHouseCount,
         int treatmentCount)
     {
         var volunteer = new Volunteer(id, fullName, description, phone, socialNetworks, requisites, experience,

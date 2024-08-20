@@ -14,7 +14,9 @@ public class VolunteerController : ControllerBase
         CancellationToken cancellationToken = default)
     {
         var result = await service.Handle(request, cancellationToken);
-
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+        
         return Ok(result.Value);
     }
 }

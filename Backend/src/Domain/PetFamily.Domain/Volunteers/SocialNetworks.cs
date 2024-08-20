@@ -9,6 +9,5 @@ public record SocialNetworks
     {
         Network = network;
     }
-
-    public List<SocialNetwork> Network { get; }
+    public IReadOnlyList<SocialNetwork> Network { get; }
 }
