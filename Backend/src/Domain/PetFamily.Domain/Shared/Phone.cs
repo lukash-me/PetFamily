@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using CSharpFunctionalExtensions;
 
 namespace PetFamily.Domain.Shared;
@@ -11,9 +12,18 @@ public record Phone
     
     public string Value { get; }
 
-    public static Result<Phone> Create(string value)
+    public static Result<Phone, Error> Create(string value)
     {
+        if (string.IsNullOrWhiteSpace(value))
+            return Errors.General.ValueIsRequired("phone");
+
+        if (Regex.IsMatch(value, Constants.RU_PHONE_REGEX) == false)
+            return Errors.General.ValueIsInvalid("phone");
+        
+        if (value.Length > Constants.PHONE_NUMBER_LENGTH)
+            return Errors.General.InvalidLength("phone");
+        
         var phone = new Phone(value);
-        return Result.Success(phone);
+        return phone;
     }
 }

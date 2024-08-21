@@ -44,7 +44,7 @@ public class Volunteer : BaseEntity<VolunteerId>
     public Requisites? Requisites { get; private set; }
     public IReadOnlyList<Pet> Pets => _pets;
     private readonly List<Pet> _pets = [];
-    public static Result<Volunteer> Create(
+    public static Result<Volunteer, Error> Create(
         VolunteerId id,
         FullName fullName,
         string description,
@@ -58,6 +58,13 @@ public class Volunteer : BaseEntity<VolunteerId>
     {
         var volunteer = new Volunteer(id, fullName, description, phone, socialNetworks, requisites, experience,
             housedCount, searchingHouseCount, treatmentCount);
-        return Result.Success(volunteer);
+
+        if (string.IsNullOrWhiteSpace(description))
+            return Errors.General.ValueIsRequired("description");
+        
+        if (description.Length > Constants.MEDIUM_DESCRIPTION_LENGTH)
+            return Errors.General.InvalidLength("description");
+        
+        return volunteer;
     }
 }

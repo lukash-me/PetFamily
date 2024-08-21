@@ -14,24 +14,24 @@ public record class SocialNetwork
     public string Link { get; }
     public string Title { get; }
 
-    public static Result<SocialNetwork> Create(string link, string title)
+    public static Result<SocialNetwork, Error> Create(string link, string title)
     {
         if (string.IsNullOrWhiteSpace(title))
-            return Result.Failure<SocialNetwork>($"'{nameof(title)}' Cannot be null or empty");
+            return Errors.General.ValueIsRequired("title");
         
         if (title.Length > Constants.LOW_TITLE_LENGTH)
-            return Result.Failure<SocialNetwork>($"'{nameof(title)}' Max length {Constants.LOW_TITLE_LENGTH} exceeded");
+            return Errors.General.InvalidLength("title");
         
         if (string.IsNullOrWhiteSpace(link))
-            return Result.Failure<SocialNetwork>($"'{nameof(link)}' Cannot be null or empty");
+            return Errors.General.ValueIsRequired("link");
         
         if (link.Length > Constants.MEDIUM_TITLE_LENGTH)
-            return Result.Failure<SocialNetwork>($"'{nameof(link)}' Max length {Constants.MEDIUM_TITLE_LENGTH} exceeded");
-        
+            return Errors.General.InvalidLength("link");
+
         if (Regex.IsMatch(link, Constants.LINK_REGEX) == false)
-            return Result.Failure<SocialNetwork>($"'{nameof(link)}' Is invalid link");
+            return Errors.General.ValueIsInvalid("link");
         
         var socialNetworks = new SocialNetwork(link, title);
-        return Result.Success(socialNetworks);
+        return socialNetworks;
     }
 }

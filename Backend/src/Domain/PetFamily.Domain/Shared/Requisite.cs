@@ -12,21 +12,21 @@ public record Requisite
     public string Title { get; }
     public string Description { get; }
 
-    public static Result<Requisite> Create(string title, string description)
+    public static Result<Requisite, Error> Create(string title, string description)
     {
         if (string.IsNullOrWhiteSpace(title))
-            return Result.Failure<Requisite>($"'{nameof(title)}' Cannot be null or empty");
+            return Errors.General.ValueIsRequired("title");
         
         if (title.Length > Constants.LOW_TITLE_LENGTH)
-            return Result.Failure<Requisite>($"'{nameof(title)}' Max length {Constants.LOW_TITLE_LENGTH} exceeded");
+            return Errors.General.InvalidLength("title");
         
         if (string.IsNullOrWhiteSpace(description))
-            return Result.Failure<Requisite>($"'{nameof(description)}' Cannot be null or empty");
+            return Errors.General.ValueIsInvalid("description");
         
         if (description.Length > Constants.MEDIUM_DESCRIPTION_LENGTH)
-            return Result.Failure<Requisite>($"'{nameof(description)}' Max length {Constants.MEDIUM_DESCRIPTION_LENGTH} exceeded");
+            return Errors.General.InvalidLength("description");
         
         var requisite = new Requisite(title, description);
-        return Result.Success(requisite);
+        return requisite;
     }
 }

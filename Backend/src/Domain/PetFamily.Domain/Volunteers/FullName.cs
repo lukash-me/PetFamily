@@ -1,10 +1,11 @@
 using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Volunteers;
 
 public record FullName
 {
-    private FullName(string firstName, string lastName, string middleName)
+    private FullName(string firstName, string lastName, string? middleName)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -12,10 +13,25 @@ public record FullName
     }
     public string FirstName { get; }
     public string LastName { get; }
-    public string MiddleName { get; }
-    public static Result<FullName> Create(string firstName, string lastName, string middleName)
+    public string? MiddleName { get; }
+    public static Result<FullName, Error> Create(string firstName, string lastName, string? middleName = null)
     {
+        if (string.IsNullOrWhiteSpace(firstName))
+            return Errors.General.ValueIsRequired("firstname");
+
+        if (firstName.Length > Constants.LOW_TITLE_LENGTH)
+            return Errors.General.InvalidLength("firstname");
+        
+        if (string.IsNullOrWhiteSpace(lastName))
+            return Errors.General.ValueIsRequired("lastName");
+
+        if (lastName.Length > Constants.LOW_TITLE_LENGTH)
+            return Errors.General.InvalidLength("lastName");
+        
+        if (middleName.Length > Constants.LOW_TITLE_LENGTH)
+            return Errors.General.InvalidLength("middleName");
+        
         var fullName = new FullName(firstName, lastName, middleName);
-        return Result.Success(fullName);
+        return fullName;
     }
 }
