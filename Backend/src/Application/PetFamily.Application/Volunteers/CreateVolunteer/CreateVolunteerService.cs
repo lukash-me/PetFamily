@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices.JavaScript;
 using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.Volunteers;
@@ -18,44 +17,42 @@ public class CreateVolunteerService
     {
         var volunteerId = VolunteerId.NewVolunteerId();
 
-        var fullNameResult = FullName.Create(
+        var fullName = FullName.Create(
             request.FirstName,
             request.LastName,
-            request.MiddleName);
-        if (fullNameResult.IsFailure)
-            return fullNameResult.Error;
+            request.MiddleName).Value;
 
-        var phoneResult = Phone.Create(request.Phone);
-        if (phoneResult.IsFailure)
-            return phoneResult.Error;
+        var description = Description.Create(request.Description).Value;
+        
+        var phone = Phone.Create(request.Phone).Value;
 
-        var socialNetworksResult = request.SocialNetworks.Select(s =>
-                SocialNetwork.Create(s.link, s.title))
-            .ToList();
-        if (socialNetworksResult.Any(r => r.IsFailure))
-            return socialNetworksResult.FirstOrDefault(r => r.IsFailure).Error;
-        var socialNetworks = new SocialNetworks(socialNetworksResult.Select(s => s.Value)
-            .ToList());
+        var socialNetworks = new SocialNetworks(
+            request.SocialNetworks.Select(s =>
+                    SocialNetwork.Create(s.link, s.title).Value).ToList());
 
-        var requisitesResult = request.Requisites.Select(s =>
-                Requisite.Create(s.title, s.description))
-            .ToList();
-        if (requisitesResult.Any(r => r.IsFailure))
-            return requisitesResult.FirstOrDefault(r => r.IsFailure).Error;
-        var requisites = new Requisites(requisitesResult.Select(s => s.Value)
-            .ToList());
+        var requisites = new Requisites(
+            request.Requisites.Select(s => 
+                    Requisite.Create(s.title, s.description).Value).ToList());
+        
+        var experience = Experience.Create(request.Experience).Value;
+
+        var housedCount = HousedCount.Create(request.HousedCount).Value;
+
+        var searchingHouseCount = SearchingHouseCount.Create(request.SearchingHouseCount).Value;
+        
+        var treatmentCount = TreatmentCount.Create(request.TreatmentCount).Value;
 
         var volunteerResult = Volunteer.Create(
             volunteerId,
-            fullNameResult.Value,
-            request.Description,
-            phoneResult.Value,
+            fullName,
+            description,
+            phone,
             socialNetworks,
             requisites,
-            request.Experience,
-            request.HousedCount,
-            request.SearchingHouseCount,
-            request.TreatmentCount);
+            experience,
+            housedCount,
+            searchingHouseCount,
+            treatmentCount);
         
         if (volunteerResult.IsFailure)
             return volunteerResult.Error;

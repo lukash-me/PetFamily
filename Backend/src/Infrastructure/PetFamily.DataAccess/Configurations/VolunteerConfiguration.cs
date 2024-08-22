@@ -30,18 +30,30 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 .IsRequired(false);
         });
         
-        builder.Property(v => v.Description)
-            .IsRequired()
-            .HasMaxLength(Constants.MEDIUM_DESCRIPTION_LENGTH);
+        builder.ComplexProperty(v => v.Description, db =>
+        {
+            db.Property(d => d.Value)
+                .HasColumnName("description")
+                .HasMaxLength(Constants.MEDIUM_DESCRIPTION_LENGTH);
+        });
 
-        builder.Property(v => v.Experience)
-            .IsRequired();
+        builder.ComplexProperty(v => v.Experience, eb =>
+        {
+            eb.Property(e => e.Value)
+                .HasColumnName("experience");
+        });
         
-        builder.Property(v => v.HousedCount)
-            .IsRequired();
+        builder.ComplexProperty(v => v.HousedCount, hb =>
+        {
+            hb.Property(h => h.Value)
+                .HasColumnName("housed_count");
+        });
         
-        builder.Property(v => v.SearchingHouseCount)
-            .IsRequired();
+        builder.ComplexProperty(v => v.SearchingHouseCount, sb =>
+        {
+            sb.Property(s => s.Value)
+                .HasColumnName("searching_house_count");
+        });
         
         builder.ComplexProperty(v => v.Phone, nameBuilder =>
         {
@@ -50,8 +62,11 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 .HasMaxLength(Constants.LOW_TITLE_LENGTH);
         });
         
-        builder.Property(v => v.TreatmentCount)
-            .IsRequired();
+        builder.ComplexProperty(v => v.TreatmentCount, tb =>
+        {
+            tb.Property(t => t.Value)
+                .HasColumnName("treatment_count");
+        });
         
         builder.OwnsOne(v => v.SocialNetworks, snb =>
         {
