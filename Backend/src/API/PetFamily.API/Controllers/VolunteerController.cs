@@ -16,6 +16,14 @@ public class VolunteerController : ControllerBase
     {
         var result = await service.Handle(request, cancellationToken);
 
-        return result.ToResponse();
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return CreatedAtAction("Post", result.Value);
+    }
+
+    public IActionResult Post()
+    {
+        throw new NotImplementedException();
     }
 }

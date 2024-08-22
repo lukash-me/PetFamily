@@ -11,14 +11,14 @@ public class Volunteer : BaseEntity<VolunteerId>
     private Volunteer(
         VolunteerId id,
         FullName fullName,
-        string description,
+        Description description,
         Phone phone,
         SocialNetworks? socialNetworks,
         Requisites? requisites,
-        int experience,
-        int housedCount,
-        int searchingHouseCount,
-        int treatmentCount) : base(VolunteerId.NewVolunteerId())
+        Experience experience,
+        HousedCount housedCount,
+        SearchingHouseCount searchingHouseCount,
+        TreatmentCount treatmentCount) : base(VolunteerId.NewVolunteerId())
     {
         Id = id;
         FullName = fullName;
@@ -34,12 +34,12 @@ public class Volunteer : BaseEntity<VolunteerId>
 
     public VolunteerId Id { get; private set; }
     public FullName FullName { get; private set; }
-    public string Description { get; private set; }
-    public int Experience { get; private set; }
-    public int HousedCount { get; private set; }
-    public int SearchingHouseCount { get; private set; }
+    public Description Description { get; private set; }
+    public Experience Experience { get; private set; }
+    public HousedCount HousedCount { get; private set; }
+    public SearchingHouseCount SearchingHouseCount { get; private set; }
     public Phone Phone { get; private set; }
-    public int TreatmentCount { get; private set; }
+    public TreatmentCount TreatmentCount { get; private set; }
     public SocialNetworks? SocialNetworks { get; private set; }
     public Requisites? Requisites { get; private set; }
     public IReadOnlyList<Pet> Pets => _pets;
@@ -47,23 +47,17 @@ public class Volunteer : BaseEntity<VolunteerId>
     public static Result<Volunteer, Error> Create(
         VolunteerId id,
         FullName fullName,
-        string description,
+        Description description,
         Phone phone,
         SocialNetworks? socialNetworks,
         Requisites? requisites,
-        int experience,
-        int housedCount,
-        int searchingHouseCount,
-        int treatmentCount)
+        Experience experience,
+        HousedCount housedCount,
+        SearchingHouseCount searchingHouseCount,
+        TreatmentCount treatmentCount)
     {
         var volunteer = new Volunteer(id, fullName, description, phone, socialNetworks, requisites, experience,
             housedCount, searchingHouseCount, treatmentCount);
-
-        if (string.IsNullOrWhiteSpace(description))
-            return Errors.General.ValueIsRequired("description");
-        
-        if (description.Length > Constants.MEDIUM_DESCRIPTION_LENGTH)
-            return Errors.General.InvalidLength("description");
         
         return volunteer;
     }
