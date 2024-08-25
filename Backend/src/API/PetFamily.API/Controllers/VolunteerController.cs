@@ -19,11 +19,6 @@ public class VolunteerController : ControllerBase
         if (result.IsFailure)
             return result.Error.ToResponse();
 
-        return CreatedAtAction("Post", result.Value);
-    }
-
-    public IActionResult Post()
-    {
-        throw new NotImplementedException();
+        return Ok(result.Value);
     }
 }

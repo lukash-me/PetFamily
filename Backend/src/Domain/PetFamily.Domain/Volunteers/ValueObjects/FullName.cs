@@ -1,7 +1,7 @@
 using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared;
 
-namespace PetFamily.Domain.Volunteers;
+namespace PetFamily.Domain.Volunteers.ValueObjects;
 
 public record FullName
 {
@@ -31,7 +31,6 @@ public record FullName
         if (middleName.Length > Constants.LOW_TITLE_LENGTH)
             return Errors.General.InvalidLength("middleName");
         
-        var fullName = new FullName(firstName, lastName, middleName);
-        return fullName;
+        return new FullName(firstName, lastName, middleName);
     }
 }

@@ -1,10 +1,9 @@
 using CSharpFunctionalExtensions;
-using PetFamily.Domain.Breeds;
 using PetFamily.Domain.Shared;
-using PetFamily.Domain.Sorts;
-using PetFamily.Domain.Volunteers;
+using PetFamily.Domain.Volunteers.IDs;
+using PetFamily.Domain.Volunteers.ValueObjects;
 
-namespace PetFamily.Domain.Pets;
+namespace PetFamily.Domain.Volunteers.Entities;
 
 public class Pet : BaseEntity<PetId>
 {
@@ -12,19 +11,19 @@ public class Pet : BaseEntity<PetId>
 
     private Pet(
         PetId id,
-        string name,
+        Name name,
         AnimalInfo animalInfo,
-        string description,
-        string color,
-        string healthInfo,
+        Description description,
+        Color color,
+        HealthInfo healthInfo,
         Address address,
         Phone phone,
         Status status,
         Requisites? requisites,
-        double weight,
-        double height,
+        Weight weight,
+        Height height,
         bool isCastrated,
-        DateOnly birthDate,
+        BirthDate birthDate,
         bool isVaccinated,
         PetPhotos petPhotos) : base(PetId.NewId())
     {
@@ -46,17 +45,17 @@ public class Pet : BaseEntity<PetId>
         PetPhotos = petPhotos;
     }
     public PetId Id { get; private set; }
-    public string Name { get; private set; }
+    public Name Name { get; private set; }
     public AnimalInfo AnimalInfo { get; private set; }
-    public string Description { get; private set; }
-    public string Color { get; private set; }
-    public string HealthInfo { get; private set; }
+    public Description Description { get; private set; }
+    public Color Color { get; private set; }
+    public HealthInfo HealthInfo { get; private set; }
     public Address Address { get; private set; }
-    public double Weight { get; private set; }
-    public double Height { get; private set; }
+    public Weight Weight { get; private set; }
+    public Height Height { get; private set; }
     public Phone Phone { get; private set; }
     public bool IsCastrated { get; private set; }
-    public DateOnly BirthDate { get; private set; }
+    public BirthDate BirthDate { get; private set; }
     public bool IsVaccinated { get; private set; }
     public Status Status { get; private set; }
     public Requisites? Requisites { get; private set; }
@@ -64,32 +63,40 @@ public class Pet : BaseEntity<PetId>
     
     public static Result<Pet> Create(
         PetId id,
-        string name,
+        Name name,
         AnimalInfo animalInfo,
-        string description,
-        string color,
-        string healthInfo,
+        Description description,
+        Color color,
+        HealthInfo healthInfo,
         Address address,
         Phone phone,
         Status status,
         Requisites? requisites,
-        double weight,
-        double height,
+        Weight weight,
+        Height height,
         bool isCastrated,
-        DateOnly birthDate,
+        BirthDate birthDate,
         bool isVaccinated,
         PetPhotos petPhotos)
     {
-        var pet = new Pet(id, name, animalInfo, description, color, healthInfo, address, phone, status, requisites, weight,
-            height, isCastrated, birthDate, isVaccinated, petPhotos);
+        var pet = new Pet(
+            id,
+            name,
+            animalInfo,
+            description,
+            color,
+            healthInfo,
+            address,
+            phone,
+            status,
+            requisites,
+            weight,
+            height,
+            isCastrated,
+            birthDate,
+            isVaccinated,
+            petPhotos);
 
         return Result.Success(pet);
     }
-}
-
-public enum Status
-{
-    NeedsHelp,
-    SearchingHouse,
-    Housed
 }

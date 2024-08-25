@@ -1,4 +1,5 @@
 using PetFamily.Domain.Volunteers;
+using PetFamily.Domain.Volunteers.AggregateRoot;
 
 namespace PetFamily.Application.Volunteers;
 

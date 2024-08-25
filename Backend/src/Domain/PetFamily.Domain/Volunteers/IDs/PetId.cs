@@ -1,4 +1,4 @@
-namespace PetFamily.Domain.Pets;
+namespace PetFamily.Domain.Volunteers.IDs;
 
 public record PetId
 {

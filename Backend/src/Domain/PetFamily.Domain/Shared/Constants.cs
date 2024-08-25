@@ -9,6 +9,8 @@ public class Constants
 
     public const string RU_PHONE_REGEX = "(7|8|\\+7)(\\d{3}){2}(\\d{2}){2}";
     
+    public const string GUID_REGEX = @"(?im)^[{(]?[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}[)}]?$";
+    
     public const int PHONE_NUMBER_LENGTH = 12;
     public const int LOW_TITLE_LENGTH = 30;
     public const int MEDIUM_TITLE_LENGTH = 60;

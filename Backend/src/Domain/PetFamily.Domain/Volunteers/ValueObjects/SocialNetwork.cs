@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared;
 
-namespace PetFamily.Domain.Volunteers;
+namespace PetFamily.Domain.Volunteers.ValueObjects;
 
 public record class SocialNetwork
 {
@@ -13,7 +13,7 @@ public record class SocialNetwork
     }
     public string Link { get; }
     public string Title { get; }
-
+    
     public static Result<SocialNetwork, Error> Create(string link, string title)
     {
         if (string.IsNullOrWhiteSpace(title))
@@ -31,7 +31,6 @@ public record class SocialNetwork
         if (Regex.IsMatch(link, Constants.LINK_REGEX) == false)
             return Errors.General.ValueIsInvalid("link");
         
-        var socialNetworks = new SocialNetwork(link, title);
-        return socialNetworks;
+        return new SocialNetwork(link, title);
     }
 }

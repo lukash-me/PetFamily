@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.Volunteers;
+using PetFamily.Domain.Volunteers.AggregateRoot;
+using PetFamily.Domain.Volunteers.IDs;
 
 namespace PetFamily.DataAccess.Configurations;
 
@@ -43,18 +45,6 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 .HasColumnName("experience");
         });
         
-        builder.ComplexProperty(v => v.HousedCount, hb =>
-        {
-            hb.Property(h => h.Value)
-                .HasColumnName("housed_count");
-        });
-        
-        builder.ComplexProperty(v => v.SearchingHouseCount, sb =>
-        {
-            sb.Property(s => s.Value)
-                .HasColumnName("searching_house_count");
-        });
-        
         builder.ComplexProperty(v => v.Phone, nameBuilder =>
         {
             nameBuilder.Property(p => p.Value)
@@ -62,15 +52,9 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 .HasMaxLength(Constants.LOW_TITLE_LENGTH);
         });
         
-        builder.ComplexProperty(v => v.TreatmentCount, tb =>
-        {
-            tb.Property(t => t.Value)
-                .HasColumnName("treatment_count");
-        });
-        
         builder.OwnsOne(v => v.SocialNetworks, snb =>
         {
-            snb.ToJson();
+            snb.ToJson("social_networks");
             snb.OwnsMany(s => s.Network, nb =>
             {
                 nb.Property(n => n.Title)
@@ -84,7 +68,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         
         builder.OwnsOne(v => v.Requisites, rb =>
         {
-            rb.ToJson();
+            rb.ToJson("requisites");
             rb.OwnsMany(r => r.Requisite, reqb =>
             {
                 reqb.Property(r => r.Title)
