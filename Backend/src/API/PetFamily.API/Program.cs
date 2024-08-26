@@ -1,4 +1,5 @@
 using PetFamily.API;
+using PetFamily.API.Middlewares;
 using PetFamily.API.Validation;
 using PetFamily.Application;
 using PetFamily.Infrastructure;
@@ -36,6 +37,8 @@ builder.Services.AddFluentValidationAutoValidation(configuration =>
 });
 
 var app = builder.Build();
+
+app.UseExceptionMiddleware();
 
 app.UseSerilogRequestLogging();
 
