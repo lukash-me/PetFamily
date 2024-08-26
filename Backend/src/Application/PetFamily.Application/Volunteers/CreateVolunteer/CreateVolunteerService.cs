@@ -1,6 +1,6 @@
 using CSharpFunctionalExtensions;
+using Microsoft.Extensions.Logging;
 using PetFamily.Domain.Shared;
-using PetFamily.Domain.Volunteers;
 using PetFamily.Domain.Volunteers.AggregateRoot;
 using PetFamily.Domain.Volunteers.IDs;
 using PetFamily.Domain.Volunteers.ValueObjects;
@@ -10,10 +10,14 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer;
 public class CreateVolunteerService
 {
     private readonly IVolunteerRepository _volunteerRepository;
+    private readonly ILogger<CreateVolunteerService> _logger;
 
-    public CreateVolunteerService(IVolunteerRepository volunteerRepository)
+    public CreateVolunteerService(
+        IVolunteerRepository volunteerRepository, 
+        ILogger<CreateVolunteerService> logger)
     {
         _volunteerRepository = volunteerRepository;
+        _logger = logger;
     }
 
     public async Task<Result<Guid, Error>> Handle(CreateVolunteerRequest request, CancellationToken cancellationToken)
@@ -47,12 +51,14 @@ public class CreateVolunteerService
             socialNetworks,
             requisites,
             experience);
-        
+
         if (volunteerResult.IsFailure)
             return volunteerResult.Error;
+        
+        await _volunteerRepository.Add(volunteerResult.Value, cancellationToken);
 
-        await _volunteerRepository.Add(volunteerResult.Value);
-
+        _logger.LogInformation("Created volunteer {fullname} with id {volunteerId}", fullName, volunteerId);
+        
         return volunteerResult.Value.Id.Value;
     }
 }
