@@ -18,7 +18,7 @@ public class VolunteerController : ControllerBase
 
         if (result.IsFailure)
             return result.Error.ToResponse();
-
+        
         return Ok(result.Value);
     }
 }
