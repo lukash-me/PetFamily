@@ -13,7 +13,7 @@ public class Weight
     
     public static Result<Weight, Error> Create(double value)
     {
-        if (value <= 0 || value > 100)
+        if (value <= 0 || value > 1000)
             return Errors.General.ValueIsInvalid("weight");
         
         return new Weight(value);

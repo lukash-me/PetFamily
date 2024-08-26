@@ -2,8 +2,8 @@ namespace PetFamily.Domain.Volunteers.ValueObjects;
 
 public record PetPhotos
 {
-    public PetPhotos() { }
-    public PetPhotos(IEnumerable<PetPhoto> petPhotos)
+    private PetPhotos() { }
+    private PetPhotos(IEnumerable<PetPhoto> petPhotos)
     {
         PetPhoto = petPhotos.ToList();
     }

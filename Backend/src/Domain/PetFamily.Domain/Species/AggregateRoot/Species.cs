@@ -4,6 +4,7 @@ using PetFamily.Domain.Species.Entities;
 using PetFamily.Domain.Species.IDs;
 
 namespace PetFamily.Domain.Species.AggregateRoot;
+
 public class Species : BaseEntity<SpeciesId>
 {
     public Species(SpeciesId id) : base(id) { }
