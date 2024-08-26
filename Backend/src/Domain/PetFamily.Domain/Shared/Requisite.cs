@@ -4,7 +4,7 @@ namespace PetFamily.Domain.Shared;
 
 public record Requisite
 {
-    public Requisite(string title, string description)
+    private Requisite(string title, string description)
     {
         Title = title;
         Description = description;
@@ -26,7 +26,6 @@ public record Requisite
         if (description.Length > Constants.MEDIUM_DESCRIPTION_LENGTH)
             return Errors.General.InvalidLength("description");
         
-        var requisite = new Requisite(title, description);
-        return requisite;
+        return new Requisite(title, description);
     }
 }

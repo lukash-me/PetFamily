@@ -1,6 +1,9 @@
 using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.Volunteers;
+using PetFamily.Domain.Volunteers.AggregateRoot;
+using PetFamily.Domain.Volunteers.IDs;
+using PetFamily.Domain.Volunteers.ValueObjects;
 
 namespace PetFamily.Application.Volunteers.CreateVolunteer;
 
@@ -18,9 +21,9 @@ public class CreateVolunteerService
         var volunteerId = VolunteerId.NewVolunteerId();
 
         var fullName = FullName.Create(
-            request.FirstName,
-            request.LastName,
-            request.MiddleName).Value;
+            request.FullName.FirstName,
+            request.FullName.LastName,
+            request.FullName.MiddleName).Value;
 
         var description = Description.Create(request.Description).Value;
         
@@ -36,12 +39,6 @@ public class CreateVolunteerService
         
         var experience = Experience.Create(request.Experience).Value;
 
-        var housedCount = HousedCount.Create(request.HousedCount).Value;
-
-        var searchingHouseCount = SearchingHouseCount.Create(request.SearchingHouseCount).Value;
-        
-        var treatmentCount = TreatmentCount.Create(request.TreatmentCount).Value;
-
         var volunteerResult = Volunteer.Create(
             volunteerId,
             fullName,
@@ -49,10 +46,7 @@ public class CreateVolunteerService
             phone,
             socialNetworks,
             requisites,
-            experience,
-            housedCount,
-            searchingHouseCount,
-            treatmentCount);
+            experience);
         
         if (volunteerResult.IsFailure)
             return volunteerResult.Error;

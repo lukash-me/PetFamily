@@ -2,9 +2,10 @@ using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetFamily.Domain.Pets;
-using PetFamily.Domain.Sorts;
+using PetFamily.Domain.Species.AggregateRoot;
 using PetFamily.Domain.Volunteers;
+using PetFamily.Domain.Volunteers.AggregateRoot;
+using PetFamily.Domain.Volunteers.Entities;
 
 namespace PetFamily.DataAccess;
 

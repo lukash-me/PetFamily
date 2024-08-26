@@ -23,7 +23,6 @@ public record Phone
         if (value.Length > Constants.PHONE_NUMBER_LENGTH)
             return Errors.General.InvalidLength("phone");
         
-        var phone = new Phone(value);
-        return phone;
+        return new Phone(value);
     }
 }
