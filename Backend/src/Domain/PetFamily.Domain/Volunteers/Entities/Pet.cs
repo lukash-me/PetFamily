@@ -10,7 +10,6 @@ public class Pet : BaseEntity<PetId>
     private Pet(PetId id) : base(id){ }
 
     private Pet(
-        PetId id,
         Name name,
         AnimalInfo animalInfo,
         Description description,
@@ -27,7 +26,6 @@ public class Pet : BaseEntity<PetId>
         bool isVaccinated,
         PetPhotos petPhotos) : base(PetId.NewId())
     {
-        Id = id;
         Name = name;
         AnimalInfo = animalInfo;
         Description = description;
@@ -80,7 +78,6 @@ public class Pet : BaseEntity<PetId>
         PetPhotos petPhotos)
     {
         var pet = new Pet(
-            id,
             name,
             animalInfo,
             description,

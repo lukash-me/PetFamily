@@ -10,7 +10,6 @@ public class Volunteer : BaseEntity<VolunteerId>
 {
     private Volunteer(VolunteerId id) : base(id) { }
     private Volunteer(
-        VolunteerId id,
         FullName fullName,
         Description description,
         Phone phone,
@@ -18,7 +17,6 @@ public class Volunteer : BaseEntity<VolunteerId>
         Requisites? requisites,
         Experience experience) : base(VolunteerId.NewVolunteerId())
     {
-        Id = id;
         FullName = fullName;
         Description = description;
         Phone = phone;
@@ -26,8 +24,6 @@ public class Volunteer : BaseEntity<VolunteerId>
         Requisites = requisites;
         Experience = experience;
     }
-
-    public VolunteerId Id { get; private set; }
     public FullName FullName { get; private set; }
     public Description Description { get; private set; }
     public Experience Experience { get; private set; }
@@ -39,7 +35,25 @@ public class Volunteer : BaseEntity<VolunteerId>
     public int HousedPetsCount() => _pets.Count(x => x.Status == Status.Housed);
     public int NeedHelpPetsCount() => _pets.Count(x => x.Status == Status.NeedsHelp);
     public int SearchingHousePetsCount() => _pets.Count(x => x.Status == Status.SearchingHouse);
+
+    public void UpdateMainInfo(
+        FullName fullName,
+        Description description,
+        Experience experience,
+        Phone phone)
+    {
+        FullName = fullName;
+        Description = description;
+        Experience = experience;
+        Phone = phone;
+    }
+
+    public void UpdateSocialNetworks(SocialNetworks socialNetworks) => 
+        SocialNetworks = socialNetworks;
     
+    public void UpdateRequisites(Requisites requisites) => 
+        Requisites = requisites;
+
     public static Result<Volunteer, Error> Create(
         VolunteerId id,
         FullName fullName,
@@ -50,7 +64,6 @@ public class Volunteer : BaseEntity<VolunteerId>
         Experience experience)
     {
         var volunteer = new Volunteer(
-            id,
             fullName,
             description,
             phone,

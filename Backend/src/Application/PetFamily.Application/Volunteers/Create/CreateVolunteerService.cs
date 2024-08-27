@@ -5,7 +5,7 @@ using PetFamily.Domain.Volunteers.AggregateRoot;
 using PetFamily.Domain.Volunteers.IDs;
 using PetFamily.Domain.Volunteers.ValueObjects;
 
-namespace PetFamily.Application.Volunteers.CreateVolunteer;
+namespace PetFamily.Application.Volunteers.Create;
 
 public class CreateVolunteerService
 {

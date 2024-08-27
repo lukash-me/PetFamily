@@ -1,10 +1,9 @@
 using FluentValidation;
 using PetFamily.Application.Validation;
 using PetFamily.Domain.Shared;
-using PetFamily.Domain.Volunteers;
 using PetFamily.Domain.Volunteers.ValueObjects;
 
-namespace PetFamily.Application.Volunteers.CreateVolunteer;
+namespace PetFamily.Application.Volunteers.Create;
 
 public class CreateVolunteerRequestValidator : AbstractValidator<CreateVolunteerRequest>
 {
