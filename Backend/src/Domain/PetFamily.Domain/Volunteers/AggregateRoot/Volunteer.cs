@@ -8,6 +8,7 @@ namespace PetFamily.Domain.Volunteers.AggregateRoot;
 
 public class Volunteer : BaseEntity<VolunteerId>
 {
+    private bool _isDeleted = false;
     private Volunteer(VolunteerId id) : base(id) { }
     private Volunteer(
         FullName fullName,
@@ -53,6 +54,21 @@ public class Volunteer : BaseEntity<VolunteerId>
     
     public void UpdateRequisites(Requisites requisites) => 
         Requisites = requisites;
+
+    public void Delete()
+    {
+        _isDeleted = true;
+
+        foreach (var pet in _pets)
+        {
+            pet.Delete();
+        }
+    }
+
+    public void Restore()
+    {
+        _isDeleted = false;
+    }
 
     public static Result<Volunteer, Error> Create(
         VolunteerId id,
