@@ -7,6 +7,7 @@ namespace PetFamily.Domain.Volunteers.Entities;
 
 public class Pet : BaseEntity<PetId>
 {
+    private bool _isDeleted = false;
     private Pet(PetId id) : base(id){ }
 
     private Pet(
@@ -58,6 +59,16 @@ public class Pet : BaseEntity<PetId>
     public Status Status { get; private set; }
     public Requisites? Requisites { get; private set; }
     public PetPhotos? PetPhotos { get; private set; }
+    
+    public void Delete()
+    {
+        _isDeleted = true;
+    }
+
+    public void Restore()
+    {
+        _isDeleted = false;
+    }
     
     public static Result<Pet> Create(
         PetId id,

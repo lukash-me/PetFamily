@@ -10,7 +10,6 @@ namespace PetFamily.DataAccess;
 public class ApplicationDbContext(IConfiguration configuration) : DbContext
 {
     public DbSet<Volunteer> Volunteer { get; set; }
-    //public DbSet<Pet> Pet { get; set; }
     public DbSet<Species> Species { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
