@@ -11,4 +11,8 @@
       <ProjectReference Include="..\PetFamily.DataAccess\PetFamily.DataAccess.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Minio.AspNetCore" Version="6.0.1" />
+    </ItemGroup>
+
 </Project>
